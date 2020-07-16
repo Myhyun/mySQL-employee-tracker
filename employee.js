@@ -78,9 +78,12 @@ function addDepartment() {
             message: "Please enter the new Department name",
         })
         .then((answer) => {
-            const query = "INSERT INTO department (name) VALUES ('?')";
-            connection.query(query, { name: answer.name }, (err, res) => {
-                console.log(res);
+            const query = "INSERT INTO department (name) VALUES (?)";
+            connection.query(query, answer.name, (err, res) => {
+                if (err){
+                    console.log(err);
+                }
+                console.table(res);
             });
         });
 };
@@ -105,11 +108,11 @@ function addRole() {
             },
         )
         .then((answer) => {
-            const query = "INSERT INTO role (title, salary, department_id) VALUES ?";
+            const query = "INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)";
             const values = [[answer.title, answer.salary, answer.departmentId]];
             connection.query(query, [values], (err, res) => {
                 if (err) throw err;
-                console.log(res);
+                console.table(res);
             });
         });
 };
@@ -143,7 +146,7 @@ function addEmployee() {
             const values = [[answer.firstName, answer.lastName, answer.roleId, answer.managerId]];
             connection.query(query, [values], (err, res) => {
                 if (err) throw err;
-                console.log(res);
+                console.table(res);
             });
         });
 };
@@ -152,7 +155,7 @@ function viewDepartments() {
     const query = "SELECT * FROM department";
     connection.query(query, function (err, res){
         if (err) throw err;
-        console.log(res);
+        console.table(res);
     });
 };
 
@@ -160,7 +163,7 @@ function viewRoles() {
     const query = "SELECT * FROM roles";
     connection.query(query, function (err, res){
         if (err) throw err;
-        console.log(res);
+        console.table(res);
     });
 };
 
@@ -168,6 +171,6 @@ function viewEmployees() {
     const query = "SELECT * FROM employee";
     connection.query(query, function (err, res){
         if (err) throw err;
-        console.log(res);
+        console.table(res);
     });
 };
