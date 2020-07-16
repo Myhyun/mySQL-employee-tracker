@@ -84,3 +84,32 @@ function addDepartment() {
         });
 }
 
+function addRole() {
+    inquirer
+        .prompt(
+            {
+            name: "title",
+            type: "input",
+            message: "Please enter the new role title",
+            },
+            {
+            name: "salary",
+            type: "input",
+            message: "Please enter the salary for the new role"
+            },
+            {
+            name: "departmentId",
+            type: "input",
+            message: "Please enter the Department ID for the new role"
+            },
+        )
+        .then((answer) =>{
+            const query = "INSERT INTO role (title, salary, department_id) VALUES ?";
+            const values = [[answer.title, answer.salary, answer.departmentId]];
+            connection.query(query, [values], (err, res) => {
+                if (err) throw err;
+                console.log(res);
+            });
+        });
+}
+
