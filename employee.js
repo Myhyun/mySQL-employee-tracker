@@ -68,3 +68,19 @@ function runInquirer() {
         }
     });
 }
+
+function addDepartment() {
+    inquirer
+        .prompt({
+            name: "name",
+            type: "input",
+            message: "Please enter the new Department name",
+        })
+        .then((answer) =>{
+            const query = "INSERT INTO department (name) VALUES ('?')";
+            connection.query(query, {name:answer.name}, (err, res) => {
+                console.log(res);
+            });
+        });
+}
+
