@@ -1,0 +1,24 @@
+{
+  "name": "mySQL-employee-tracker",
+  "version": "1.0.0",
+  "description": "An employee tracker that uses node/express/ and MySQL",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Myhyun/mySQL-employee-tracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Myhyun/mySQL-employee-tracker/issues"
+  },
+  "homepage": "https://github.com/Myhyun/mySQL-employee-tracker#readme",
+  "dependencies": {
+    "inquirer": "^7.3.2",
+    "mysql": "^2.18.1"
+  }
+}
