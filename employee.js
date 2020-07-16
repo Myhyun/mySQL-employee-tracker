@@ -156,6 +156,11 @@ function viewDepartments() {
     });
 };
 
-
-
+function viewRoles() {
+    const query = "SELECT * FROM roles";
+    connection.query(query, function (err, res){
+        if (err) throw err;
+        console.log(res);
+    });
+};
 
