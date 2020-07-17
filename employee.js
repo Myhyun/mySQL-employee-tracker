@@ -118,7 +118,7 @@ function addRole() {
 };
 
 function addEmployee() {
-    const roleList = [{ name: "Salesperson", value: 1 }, { name: "Frontend Engineer", value: 2 }]
+    const roleList = [{ name: "Salesperson", value: 1 }, { name: "Frontend Engineer", value: 2 }, { name: "Backend Engineer", value: 3 }, { name: "HR Manager", value: 4 }];
     inquirer
         .prompt([
             {
@@ -135,7 +135,7 @@ function addEmployee() {
                 name: "roleId",
                 type: "list",
                 choices: roleList,
-                message: "Please eselect a role for the new Employee"
+                message: "Please select a role for the new Employee"
             },
             {
                 name: "managerCheck",
@@ -195,4 +195,33 @@ function viewEmployees() {
         if (err) throw err;
         console.table(res);
     });
+};
+
+function updateRoles() {
+    viewEmployees();
+    const roleList = [{ name: "Salesperson", value: 1 }, { name: "Frontend Engineer", value: 2 }, { name: "Backend Engineer", value: 3 }, { name: "HR Manager", value: 4 }];
+    inquirer
+        .prompt([
+            {
+                name: "employeeId",
+                type: "input",
+                message: "Please input the id of the employee you wish to update\n"
+            },
+            {
+                name: "newRole",
+                type: "list",
+                choices: roleList,
+                message: "Please select the new role for the Employee",
+            },
+        ])
+        
+        .then((answer) => {
+            const query = "UPDATE employee SET role_id = (?) WHERE id = (?)";
+            const values = [answer.newRole, answer.employeeId];
+            connection.query(query, values, (err, res) => {
+                if (err) throw err;
+                console.log("Successfully updated Employee's role!");
+                viewEmployees();
+            });
+        })
 };
