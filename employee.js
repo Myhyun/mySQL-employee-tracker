@@ -83,14 +83,14 @@ function addDepartment() {
                 if (err){
                     console.log(err);
                 }
-                console.table(res);
+                console.log("Successfully added new department " + answer.name);
             });
         });
 };
 
 function addRole() {
     inquirer
-        .prompt(
+        .prompt([
             {
                 name: "title",
                 type: "input",
@@ -106,20 +106,20 @@ function addRole() {
                 type: "input",
                 message: "Please enter the Department ID for the new role"
             },
-        )
+        ])
         .then((answer) => {
             const query = "INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)";
-            const values = [[answer.title, answer.salary, answer.departmentId]];
-            connection.query(query, [values], (err, res) => {
+            const values = [answer.title, answer.salary, answer.departmentId];
+            connection.query(query, values, (err, res) => {
                 if (err) throw err;
-                console.table(res);
+                console.log("Successfully added new role " + answer.title);
             });
         });
 };
 
 function addEmployee() {
     inquirer
-        .prompt(
+        .prompt([
             {
                 name: "firstName",
                 type: "input",
@@ -138,15 +138,15 @@ function addEmployee() {
             {
                 name: "managerId",
                 type: "input",
-                message: "Please enter the manager ID for the new Employee, if nothing leave blank"
+                message: "Please enter the manager ID for the new Employee, if nothing enter null"
             },
-        )
+        ])
         .then((answer) => {
-            const query = "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ?";
-            const values = [[answer.firstName, answer.lastName, answer.roleId, answer.managerId]];
-            connection.query(query, [values], (err, res) => {
+            const query = "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?)";
+            const values = [answer.firstName, answer.lastName, answer.roleId, answer.managerId];
+            connection.query(query, values, (err, res) => {
                 if (err) throw err;
-                console.table(res);
+                console.log();
             });
         });
 };
