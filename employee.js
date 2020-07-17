@@ -80,7 +80,7 @@ function addDepartment() {
         .then((answer) => {
             const query = "INSERT INTO department (name) VALUES (?)";
             connection.query(query, answer.name, (err, res) => {
-                if (err){
+                if (err) {
                     console.log(err);
                 }
                 console.log("Successfully added new department " + answer.name);
@@ -118,6 +118,7 @@ function addRole() {
 };
 
 function addEmployee() {
+    const roleList = [{ name: "Salesperson", value: 1 }, { name: "Frontend Engineer", value: 2 }]
     inquirer
         .prompt([
             {
@@ -132,28 +133,49 @@ function addEmployee() {
             },
             {
                 name: "roleId",
-                type: "input",
-                message: "Please enter the role ID for the new Employee"
+                type: "list",
+                choices: roleList,
+                message: "Please eselect a role for the new Employee"
             },
             {
-                name: "managerId",
-                type: "input",
-                message: "Please enter the manager ID for the new Employee, if nothing enter null"
+                name: "managerCheck",
+                type: "list",
+                choices: ["yes", "no"],
+                message: "Please select if you are a manager"
             },
         ])
         .then((answer) => {
-            const query = "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?)";
-            const values = [answer.firstName, answer.lastName, answer.roleId, answer.managerId];
-            connection.query(query, values, (err, res) => {
-                if (err) throw err;
-                console.log();
-            });
+            if (answer.managerCheck === "yes") {
+                inquirer.prompt(
+                    {
+                        name: "managerId",
+                        type: "input",
+                        message: "Please enter your Manager Id number",
+                    },
+                )
+                    .then((result) => {
+                        const query = "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)";
+                        const values = [answer.firstName, answer.lastName, answer.roleId, result.managerId];
+                        connection.query(query, values, (err, res) => {
+                            if (err) throw err;
+                            console.log("Successfully created new Employee!");
+                        });
+                    })
+            } else {
+                const query = "INSERT INTO employee (first_name, last_name, role_id) VALUES (?, ?, ?)";
+                const values = [answer.firstName, answer.lastName, answer.roleId];
+                connection.query(query, values, (err, res) => {
+                    if (err) throw err;
+                    console.log("Successfully created new Employee!");
+                });
+            }
         });
 };
 
+
 function viewDepartments() {
     const query = "SELECT * FROM department";
-    connection.query(query, function (err, res){
+    connection.query(query, function (err, res) {
         if (err) throw err;
         console.table(res);
     });
@@ -161,7 +183,7 @@ function viewDepartments() {
 
 function viewRoles() {
     const query = "SELECT * FROM roles";
-    connection.query(query, function (err, res){
+    connection.query(query, function (err, res) {
         if (err) throw err;
         console.table(res);
     });
@@ -169,7 +191,7 @@ function viewRoles() {
 
 function viewEmployees() {
     const query = "SELECT * FROM employee";
-    connection.query(query, function (err, res){
+    connection.query(query, function (err, res) {
         if (err) throw err;
         console.table(res);
     });
