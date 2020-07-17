@@ -84,6 +84,7 @@ function addDepartment() {
                     console.log(err);
                 }
                 console.log("Successfully added new department " + answer.name);
+                viewDepartments();
             });
         });
 };
@@ -113,6 +114,7 @@ function addRole() {
             connection.query(query, values, (err, res) => {
                 if (err) throw err;
                 console.log("Successfully added new role " + answer.title);
+                viewRoles();
             });
         });
 };
@@ -159,6 +161,7 @@ function addEmployee() {
                         connection.query(query, values, (err, res) => {
                             if (err) throw err;
                             console.log("Successfully created new Employee!");
+                            viewEmployees();
                         });
                     })
             } else {
@@ -167,6 +170,7 @@ function addEmployee() {
                 connection.query(query, values, (err, res) => {
                     if (err) throw err;
                     console.log("Successfully created new Employee!");
+                    viewEmployees();
                 });
             }
         });
